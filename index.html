@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nanasi Cafe | Gallery</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #171715;
+  color: #f4eee3;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  padding: 35px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #383630;
+}
+
+.logo {
+  font-family: Georgia, serif;
+  font-size: 30px;
+  letter-spacing: 3px;
+}
+
+.logo span {
+  display: block;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  letter-spacing: 5px;
+  margin-top: 7px;
+  color: #c4a77d;
+}
+
+nav {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #c4a77d;
+}
+
+.hero {
+  padding: 95px 7% 75px;
+  text-align: center;
+}
+
+.hero small {
+  color: #c4a77d;
+  letter-spacing: 5px;
+  font-size: 10px;
+}
+
+.hero h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(42px, 7vw, 85px);
+  font-weight: normal;
+  margin: 25px 0;
+}
+
+.hero p {
+  color: #aaa69d;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.gallery {
+  padding: 20px 5% 90px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.photo {
+  overflow: hidden;
+  cursor: pointer;
+  background: #292722;
+  aspect-ratio: 4 / 5;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s ease;
+}
+
+.photo:hover img {
+  transform: scale(1.045);
+}
+
+footer {
+  padding: 35px;
+  text-align: center;
+  border-top: 1px solid #383630;
+  color: #a9a398;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: rgba(0,0,0,.96);
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 85vh;
+  object-fit: contain;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 35px;
+  color: white;
+  cursor: pointer;
+}
+
+@media(max-width: 700px) {
+  header { padding: 25px 5%; }
+  .logo { font-size: 23px; }
+  nav { font-size: 9px; letter-spacing: 1px; }
+  .hero { padding: 75px 5%; }
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 10px 3% 60px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">
+    NANASI
+    <span>CAFE</span>
+  </div>
+  <nav>OUR COLLECTION</nav>
+</header>
+
+<section class="hero">
+  <small>THE NANASI EDITION</small>
+  <h1>A Taste of Beauty.</h1>
+  <p>
+    A collection of moments, creations and experiences.<br>
+    Discover the world of Nanasi Cafe.
+  </p>
+</section>
+
+<main class="gallery" id="gallery"></main>
+
+<div class="lightbox" id="lightbox" onclick="closePhoto()">
+  <span class="close">&times;</span>
+  <img id="largePhoto" src="" alt="Nanasi Cafe photography">
+</div>
+
+<footer>
+  NANASI BAKERY & CAFE · DAR ES SALAAM
+</footer>
+
+<script>
+const gallery = document.getElementById("gallery");
+
+for (let i = 1; i <= 29; i++) {
+  const filename = `01 (${i}).jpg`;
+
+  const item = document.createElement("div");
+  item.className = "photo";
+
+  const img = document.createElement("img");
+  img.src = filename;
+  img.alt = "Nanasi cafe photo " + i;
+  img.loading = "lazy";
+
+  img.onerror = function() {
+    item.style.display = "none";
+  };
+
+  item.onclick = () => openPhoto(filename);
+  item.appendChild(img);
+  gallery.appendChild(item);
+}
+
+function openPhoto(filename) {
+  document.getElementById("largePhoto").src = filename;
+  document.getElementById("lightbox").classList.add("active");
+}
+
+function closePhoto() {
+  document.getElementById("lightbox").classList.remove("active");
+}
+
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") closePhoto();
+});
+</script>
+
+</body>
+</html>
